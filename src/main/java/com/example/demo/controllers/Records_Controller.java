@@ -35,7 +35,6 @@ public class Records_Controller {
             morningPanicService.addRecord(record);
         }
 
-
     }
 
 
