@@ -6,6 +6,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import static com.example.demo.webscraper.util.Transformer.round;
 import static com.example.demo.webscraper.util.Transformer.transform_to_unit;
 
 @MappedSuperclass
@@ -24,6 +25,10 @@ public class Historical_Data {
     public double adj_close;
     @Column(columnDefinition = "bigint default 0")
     public long volume;
+    @Column(columnDefinition = "double default 0")
+    public double open_percent_change;
+    @Column(columnDefinition = "double default 0")
+    public double close_percent_change;
 
     public static String default_time = "17:00:00 CST";
     public static String date_format = "yyyy-MM-dd";
@@ -31,6 +36,7 @@ public class Historical_Data {
     public static DateTimeFormatter yahoo_dtf = DateTimeFormatter.ofPattern("MMM dd, yyyy HH:mm:ss zzz");
 
 
+    // Webscraping constructor
     public Historical_Data(List<String> values){
         String record_time_stamp = values.get(0)+" "+default_time;
         time_stamp = ZonedDateTime.parse(record_time_stamp,yahoo_dtf);
@@ -40,8 +46,12 @@ public class Historical_Data {
         close = Double.parseDouble(values.get(4));
         adj_close = Double.parseDouble(values.get(5));
         volume = Long.parseLong(values.get(6).replace(",", ""));
+        this.open_percent_change = 0;
+        this.close_percent_change = round(((close / open)-1)*100, 2);
     }
 
+
+    // Copy Constructor
     public Historical_Data(Historical_Data historical_data){
         this.time_stamp = historical_data.time_stamp; // May need to create new object
         this.open = historical_data.open;
@@ -50,7 +60,10 @@ public class Historical_Data {
         this.close = historical_data.close;
         this.adj_close = historical_data.adj_close;
         this.volume = historical_data.volume;
+        this.open_percent_change = historical_data.open_percent_change;
+        this.close_percent_change = historical_data.close_percent_change;
     }
+
 
     public Historical_Data(){
         String record_time_stamp = "2020-01-01 "+ default_time;
@@ -61,7 +74,13 @@ public class Historical_Data {
         close = 0;
         adj_close = 0;
         volume = 0;
+        open_percent_change = 0;
+        close_percent_change = 0;
     }
+
+
+    public void calc_open_percent(double prev_close){ open_percent_change = (open / prev_close) - 1; }
+
 
     public String toString(){
         return  "time_stamp: "+ time_stamp.toLocalDate()+"\n"+
@@ -70,8 +89,11 @@ public class Historical_Data {
                 "low: "+low+"\n"+
                 "close: "+close+"\n"+
                 "adj_close: "+adj_close+"\n"+
-                "volume: "+volume+"\n";
+                "volume: "+volume+"\n"+
+                "open_percent_change: "+ open_percent_change +"\n"+
+                "close_percent_change: "+ close_percent_change +"\n";
     }
+
 
     public String toString_formatted(){
         return  "time_stamp: "+ time_stamp.toLocalDate()+", "+ time_stamp.getDayOfWeek()+"\n"+
@@ -80,6 +102,8 @@ public class Historical_Data {
                 "low: $"+low+"\n"+
                 "close: $"+close+"\n"+
                 "adj_close: $"+adj_close+"\n"+
-                "volume: "+transform_to_unit(volume)+"\n";
+                "volume: "+transform_to_unit(volume)+"\n"+
+                "open_percent_change: "+ open_percent_change +"\n"+
+                "close_percent_change: "+ close_percent_change +"\n";
     }
 }

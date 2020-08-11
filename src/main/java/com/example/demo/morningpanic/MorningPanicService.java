@@ -1,5 +1,6 @@
 package com.example.demo.morningpanic;
 
+import com.example.demo.controllers.messages.MorningPanicEnvelope;
 import com.example.demo.webscraper.model.Complete_Record;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,8 +16,8 @@ public class MorningPanicService {
     @Autowired
     private MorningPanicHistoricalDataRepository historicalDataRepository;
 
-    public void addRecord(Complete_Record record){
-        MorningPanicDataEntity data = new MorningPanicDataEntity(record.data);
+    public void addRecord(Complete_Record record, MorningPanicEnvelope envelope){
+        MorningPanicDataEntity data = new MorningPanicDataEntity(record.data, envelope);
         dataRepository.save(data);
 
         // Assigns dataId as last record in table, which was just inserted.

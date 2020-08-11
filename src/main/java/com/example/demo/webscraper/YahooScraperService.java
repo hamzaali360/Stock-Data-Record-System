@@ -28,24 +28,33 @@ public class YahooScraperService {
     public YahooScraperService(){ }
 
     // Returns an object that contains statistics and historical data on a symbol starting at
-    // a given time_stamp. The historical data size depends on the num_days_in_history parameter.
-    public Complete_Record scrape_symbol(String symbol, String date, int num_days_in_history){
+    // a given time_stamp. The historical data size depends on the history_length parameter.
+    // Assumes valid parameters.
+    public Complete_Record scrape_symbol(String symbol, String date, int history_length){
+        // Parameter validation (Moved to envelope validation)
+        //if(!validate_parameters(symbol, date, history_length)){ System.out.println("Invalid scrape parameters."); return null; }
+
+        symbol = symbol.toUpperCase();
         System.out.println("Scraping "+symbol+" data");
         System.out.println("Date: " + date);
         System.out.println();
 
-        // Parameter validation
-        if(!Validate.validateJavaDate(date)){ System.out.println("Invalid time_stamp (yyyy-MM-dd)"); return null; }
-        if(!Validate.validateSymbol(symbol)){ System.out.println("Invalid symbol");return null; }
-        if(num_days_in_history < 0 || num_days_in_history > 100){ System.out.println("Invalid number of days in history (0 - 100)"); return null; }
         Complete_Record record = new Complete_Record(symbol);
         
         try { retrieve_statistics(symbol, record.data);
-              retrieve_historical_data(symbol, date, num_days_in_history, record);
+              retrieve_historical_data(symbol, date, history_length, record);
               record.calc_market_cap(); }
         catch (Exception e){ System.out.println("Error scraping "+symbol+" data."); return null; }
 
         return record;
+    }
+
+    // Parameter validation (Moved to envelope validation)
+    public static boolean validate_parameters(String symbol, String date, int num_days_in_history){
+         if(!Validate.validateJavaDate(date)){ System.out.println("Invalid time_stamp (yyyy-MM-dd)"); return false; }
+         if(!Validate.validateSymbol(symbol)){ System.out.println("Invalid symbol"); return false; }
+         if(num_days_in_history < 0 || num_days_in_history > 100){ System.out.println("Invalid number of days in history (0 - 100)"); return false; }
+        return true;
     }
 
     // Retrieves list of historical data beginning at the time_stamp provided and reaches back num_days_in_history amount of

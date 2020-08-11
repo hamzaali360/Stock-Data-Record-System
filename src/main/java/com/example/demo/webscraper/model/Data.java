@@ -11,10 +11,12 @@ public class Data {
 
     @Column(columnDefinition = "varchar(6) default 'sym'")
     public String symbol;
-    @Column(columnDefinition = "varchar(255) default 'name'")
+    @Column(columnDefinition = "varchar(200) default 'name'")
     public String company_name;
     @Column(columnDefinition = "varchar(20) default 'index'")
     public String market_index;
+    @Column(columnDefinition = "varchar(100) default 'sector'")
+    public String sector;
     @Column(columnDefinition = "bigint default 0")
     public long market_cap;
     @Column(columnDefinition = "bigint default 0")
@@ -26,6 +28,7 @@ public class Data {
         symbol = "sym";
         company_name = "name";
         market_index = "market_index";
+        sector = "sector";
         market_cap = 0;
         shares_outstanding = 0;
         shares_float = 0;
@@ -35,6 +38,7 @@ public class Data {
         symbol = sym;
         company_name = "name";
         market_index = "market_index";
+        sector = "sector";
         market_cap = 0;
         shares_outstanding = 0;
         shares_float = 0;
@@ -45,6 +49,7 @@ public class Data {
         this.symbol = data.symbol;
         this.company_name = data.company_name;
         this.market_index = data.market_index;
+        this.sector = data.sector;
         this.market_cap = data.market_cap;
         this.shares_outstanding = data.shares_outstanding;
         this.shares_float = data.shares_float;
@@ -57,6 +62,7 @@ public class Data {
                 "symbol: " + symbol + "\n" +
                 "company name: " + company_name + "\n"+
                 "market_index: " + market_index + "\n" +
+                "sector: " + sector + "\n" +
                 "market_cap: " + market_cap + "\n" +
                 "shares_outstanding: " + shares_outstanding + "\n" +
                 "float: " + shares_float + "\n";
@@ -69,6 +75,7 @@ public class Data {
                  "symbol: "+symbol+"\n"+
                  "company name: " + company_name + "\n"+
                  "market_index: "+ market_index +"\n"+
+                 "sector: " + sector + "\n" +
                  "market_cap: $"+ Transformer.transform_to_unit(market_cap)+"\n"+
                  "shares_outstanding: "+ Transformer.transform_to_unit(shares_outstanding)+"\n"+
                  "float: "+ Transformer.transform_to_unit(shares_float)+"\n";
@@ -82,6 +89,7 @@ public class Data {
 
         if(type.equals("symbol")){ symbol = value; }
         else if(type.equals("index")){ market_index = value; }
+        else if(type.equals("sector")){ sector = value; }
         else if(type.equals("company name")){ company_name = value; }
     }
 

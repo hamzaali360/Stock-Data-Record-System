@@ -8,13 +8,9 @@ import static com.example.demo.webscraper.model.Historical_Data.dtf;
 public class Validate {
     public static boolean validateJavaDate(String strDate) {
         // Create Date object parse the string into time_stamp
-        try {
-            ZonedDateTime zdt = ZonedDateTime.parse(strDate+" "+default_time, dtf);
-        }
+        try { ZonedDateTime zdt = ZonedDateTime.parse(strDate+" "+default_time, dtf); }
         // Date format is invalid
-        catch (Exception e) {
-            e.printStackTrace();
-            return false; }
+        catch (Exception e) { return false; }
         // Return true if time_stamp format is valid
         return true;
     }

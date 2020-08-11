@@ -55,4 +55,17 @@ public class Transformer {
 
         return multiplier;
     }
+
+    public static double round(double value, int decimal_place){
+        String format = "#.";
+        for(int i=0; i<decimal_place; i++){ format += "#"; }
+
+
+        DecimalFormat df = new DecimalFormat(format);
+        df.setRoundingMode(RoundingMode.DOWN);
+        String formate = df.format(value);
+
+        try{ return (Double)df.parse(formate); }
+        catch(Exception e){ return 0; }
+    }
 }
