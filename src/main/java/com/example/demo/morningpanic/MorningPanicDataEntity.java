@@ -60,6 +60,10 @@ public class MorningPanicDataEntity extends Data{
 
     public MorningPanicDataEntity(Data data, MorningPanicEnvelope envelope){
         super(data);
+
+        // Manually entered by user
+        sector = envelope.sector;
+
         dataId = 0;
         drop_point = envelope.drop_point;
         drop_time = envelope.drop_time;
