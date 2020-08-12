@@ -18,9 +18,9 @@ public class Validate {
         boolean valid = true;
         String response = "";
 
-        if(!validateJavaDate(envelope.date)){ response = "Invalid date (yyyy-MM-dd)"; valid = false; }
         if(!validateSymbol(envelope.symbol)){ response = "Invalid symbol"; valid = false; }
-        if(envelope.history_length < 0 || envelope.history_length > 100){ response = "Invalid number of days in history (0 - 100)"; valid = false; }
+        if(envelope.history_length < 0 || envelope.history_length > 100){ response = "Invalid history_length (0 - 100)"; valid = false; }
+        if(!validateJavaDate(envelope.date)){ response = "Invalid date (yyyy-MM-dd)"; valid = false; }
         if(envelope.drop_point < 0){ response = "Invalid drop_point ( d_p > 0 )"; valid = false; }
         if(!isTime(envelope.drop_time)){ response = "Invalid drop_time (HH:mm)"; valid = false; }
         if(envelope.bottom_tick < 0){ response = "Invalid bottom_tick ( b_t > 0 )"; valid = false; }
