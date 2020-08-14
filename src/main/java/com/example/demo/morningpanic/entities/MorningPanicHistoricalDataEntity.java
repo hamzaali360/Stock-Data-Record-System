@@ -1,4 +1,4 @@
-package com.example.demo.morningpanic;
+package com.example.demo.morningpanic.entities;
 
 
 import com.example.demo.webscraper.model.Historical_Data;
@@ -22,13 +22,5 @@ public class MorningPanicHistoricalDataEntity extends Historical_Data {
         super(historical_data);
         this.dataId = dataId;
     }
-
-    public int getDataId() { return dataId; }
-
-    public void setDataId(int dataId) { this.dataId = dataId; }
-
-    public int getHistoricalDateId() { return historicalDateId; }
-
-    public void setHistoricalDateId(int historicalDateId) { this.historicalDateId = historicalDateId; }
 
 }

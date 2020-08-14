@@ -17,7 +17,8 @@ public class Validate {
 
     public static boolean validateSymbol(String symbol){
         char[] charArr = symbol.toCharArray();
-        if(charArr.length > 5){ return false; }
+        int size = charArr.length;
+        if(size > 5 || size < 1){ return false; }
         for(char c : charArr){ if(!Character.isLetter(c)){ return false; }}
 
         return true;

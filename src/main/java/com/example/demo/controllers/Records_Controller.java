@@ -27,6 +27,8 @@ public class Records_Controller {
 
     @RequestMapping(method=RequestMethod.POST, value="/morning_panic")
     public ResponseEntity<String> addRecord(@RequestBody MorningPanicEnvelope envelope){
+        System.out.println(envelope.toString());
+
         ResponseObject response = validate_MorningPanicEnvelope(envelope);
 
         if(!response.valid){
@@ -34,7 +36,7 @@ public class Records_Controller {
             return new ResponseEntity<>(response.response, HttpStatus.BAD_REQUEST);
         }
 
-        Complete_Record record = yahooScraperService.scrape_symbol(envelope.symbol, envelope.date, envelope.history_length);
+        Complete_Record record = yahooScraperService.scrape_symbol(envelope.data.symbol, envelope.date, envelope.history_length);
 
         if(record != null) {
             //System.out.println(record.toString_formatted());

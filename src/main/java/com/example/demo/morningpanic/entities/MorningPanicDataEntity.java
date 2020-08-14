@@ -1,4 +1,4 @@
-package com.example.demo.morningpanic;
+package com.example.demo.morningpanic.entities;
 
 
 import com.example.demo.controllers.messages.MorningPanicEnvelope;
@@ -8,7 +8,6 @@ import javax.persistence.*;
 
 import static com.example.demo.util.Analyis.calc_percent_change;
 import static com.example.demo.util.Analyis.calc_time_elapsed;
-import static com.example.demo.webscraper.util.Transformer.round;
 
 @Entity
 @Table(name="morning_panic_data")
@@ -63,23 +62,23 @@ public class MorningPanicDataEntity extends Data{
         super(data);
 
         // Manually entered by user
-        sector = envelope.sector;
+        sector = envelope.data.sector;
 
         dataId = 0;
-        drop_point = envelope.drop_point;
-        drop_time = envelope.drop_time;
-        bottom_tick = envelope.bottom_tick;
-        bottom_time = envelope.bottom_time;
-        top_tick = envelope.top_tick;
-        top_time = envelope.top_time;
+        drop_point = envelope.data.drop_point;
+        drop_time = envelope.data.drop_time;
+        bottom_tick = envelope.data.bottom_tick;
+        bottom_time = envelope.data.bottom_time;
+        top_tick = envelope.data.top_tick;
+        top_time = envelope.data.top_time;
         panic_percent = calc_percent_change(drop_point, bottom_tick);
         bounce_percent = calc_percent_change(bottom_tick, top_tick);
         panic_time_length = calc_time_elapsed(drop_time, bottom_time);
         bounce_time_length = calc_time_elapsed(bottom_time, top_time);
-        premarket_high = envelope.premarket_high;
-        premarket_high_time = envelope.premarket_high_time;
-        premarket_low_after_high = envelope.premarket_low_after_high;
-        premarket_low_after_high_time = envelope.premarket_low_after_high_time;
+        premarket_high = envelope.data.premarket_high;
+        premarket_high_time = envelope.data.premarket_high_time;
+        premarket_low_after_high = envelope.data.premarket_low_after_high;
+        premarket_low_after_high_time = envelope.data.premarket_low_after_high_time;
         premarket_pullback_percent = calc_percent_change(premarket_high, premarket_low_after_high);
         premarket_pullback_time_length = calc_time_elapsed(premarket_high_time, premarket_low_after_high_time);
     }
