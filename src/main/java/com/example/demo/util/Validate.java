@@ -14,7 +14,7 @@ public class Validate {
     }
 
     public static ResponseObject validate_MorningPanicEnvelope(MorningPanicEnvelope envelope){
-        System.out.println(envelope.toString());
+        //System.out.println(envelope.toString());
         boolean valid = true;
         String response = "";
 

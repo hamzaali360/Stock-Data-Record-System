@@ -50,21 +50,23 @@ public class YahooScraperService {
     }
 
     // Parameter validation (Moved to envelope validation)
-    public static boolean validate_parameters(String symbol, String date, int num_days_in_history){
+    public static boolean validate_parameters(String symbol, String date, int history_length){
          if(!Validate.validateJavaDate(date)){ System.out.println("Invalid time_stamp (yyyy-MM-dd)"); return false; }
          if(!Validate.validateSymbol(symbol)){ System.out.println("Invalid symbol"); return false; }
-         if(num_days_in_history < 0 || num_days_in_history > 100){ System.out.println("Invalid number of days in history (0 - 100)"); return false; }
+         if(history_length < 0 || history_length > 100){ System.out.println("Invalid number of days in history (0 - 100)"); return false; }
         return true;
     }
 
-    // Retrieves list of historical data beginning at the time_stamp provided and reaches back num_days_in_history amount of
+    // Retrieves list of historical data beginning at the time_stamp provided and reaches back history_length amount of
     // days, where the market has been open on these days.
-    private void retrieve_historical_data(String symbol, String date, int num_days_in_history, Complete_Record record){
+    private void retrieve_historical_data(String symbol, String date, int history_length, Complete_Record record){
         String time = "17:00:00 CST";
         String time_stamp = date+" "+time;
         ZonedDateTime day  = ZonedDateTime.parse(time_stamp, Historical_Data.dtf);
         DayOfWeek dayOfWeek = day.getDayOfWeek();
 
+        history_length += 1; // Added day to calculate open_percentage on final day in history. Is removed. 
+        
         if(dayOfWeek.equals(DayOfWeek.SATURDAY) || dayOfWeek.equals(DayOfWeek.SUNDAY)){
             System.out.println("Select a time_stamp that is not a Saturday or Sunday.");
             return;
@@ -78,8 +80,8 @@ public class YahooScraperService {
         int i = 0;
         ZonedDateTime zdt = day;
 
-        // Get start point (num_days_in_history is the amount of days where the market has been open.
-        while(i < num_days_in_history){
+        // Get start point (history_length is the amount of days where the market has been open.
+        while(i < history_length){
             zdt = zdt.minusDays(1);
             DayOfWeek dayofweek = zdt.getDayOfWeek();
             if(!dayofweek.equals(DayOfWeek.SATURDAY) && !dayofweek.equals(DayOfWeek.SUNDAY)){ i += 1; }
@@ -89,10 +91,26 @@ public class YahooScraperService {
         String end = String.valueOf(next_day.toInstant().toEpochMilli()).substring(0, 10);
         List<Historical_Data> records = scrape_historical_pricing(start, end, symbol);
         cut_future_records(records, day);
+        calc_open_percentage(records, history_length);
+        remove_added_day(records, history_length);
 
         record.historical_data = records;
     }
 
+
+    // Historical_Data is in descending order
+    private void calc_open_percentage(List<Historical_Data> historical_data, int history_length){
+        for(int i=0; i<history_length; i++){
+            if(i != history_length -1){
+                historical_data.get(i).calc_open_percent(historical_data.get(i+1).close);
+            }
+        }
+    }
+
+    private void remove_added_day(List<Historical_Data> historical_data, int historical_length){
+        historical_data.remove(historical_length-1);
+    }
+    
     // Returns a list of historical records from a "start" time_stamp to an "end" time_stamp.
     // start   - start time_stamp of historical pricing search
     // end     - end time_stamp of historical pricing search

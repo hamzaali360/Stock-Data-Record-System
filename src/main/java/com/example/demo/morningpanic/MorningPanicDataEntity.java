@@ -6,6 +6,7 @@ import com.example.demo.webscraper.model.Data;
 
 import javax.persistence.*;
 
+import static com.example.demo.util.Analyis.calc_percent_change;
 import static com.example.demo.util.Analyis.calc_time_elapsed;
 import static com.example.demo.webscraper.util.Transformer.round;
 
@@ -71,16 +72,16 @@ public class MorningPanicDataEntity extends Data{
         bottom_time = envelope.bottom_time;
         top_tick = envelope.top_tick;
         top_time = envelope.top_time;
-        panic_percent = round((1-(drop_point/bottom_tick))*100,2);
-        bounce_percent = round((((top_tick/bottom_tick)-1)*100), 2);
+        panic_percent = calc_percent_change(drop_point, bottom_tick);
+        bounce_percent = calc_percent_change(bottom_tick, top_tick);
         panic_time_length = calc_time_elapsed(drop_time, bottom_time);
-        bounce_time_length = null_time; // calc
+        bounce_time_length = calc_time_elapsed(bottom_time, top_time);
         premarket_high = envelope.premarket_high;
         premarket_high_time = envelope.premarket_high_time;
         premarket_low_after_high = envelope.premarket_low_after_high;
         premarket_low_after_high_time = envelope.premarket_low_after_high_time;
-        premarket_pullback_percent = 0; // calc
-        premarket_pullback_time_length = null_time; // calc
+        premarket_pullback_percent = calc_percent_change(premarket_high, premarket_low_after_high);
+        premarket_pullback_time_length = calc_time_elapsed(premarket_high_time, premarket_low_after_high_time);
     }
 
     @Override

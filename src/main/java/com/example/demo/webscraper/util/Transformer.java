@@ -60,12 +60,14 @@ public class Transformer {
         String format = "#.";
         for(int i=0; i<decimal_place; i++){ format += "#"; }
 
-
         DecimalFormat df = new DecimalFormat(format);
-        df.setRoundingMode(RoundingMode.DOWN);
+        df.setRoundingMode(RoundingMode.HALF_DOWN);
         String formate = df.format(value);
 
+        // Formatting Double
         try{ return (Double)df.parse(formate); }
-        catch(Exception e){ return 0; }
+        // Double cannot be formatted. Possible reason is the double doesn't have enough
+        // decimal places to be rounded to.
+        catch(Exception e){ return Double.parseDouble(formate); }
     }
 }

@@ -6,6 +6,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import static com.example.demo.util.Analyis.calc_percent_change;
 import static com.example.demo.webscraper.util.Transformer.round;
 import static com.example.demo.webscraper.util.Transformer.transform_to_unit;
 
@@ -79,7 +80,7 @@ public class Historical_Data {
     }
 
 
-    public void calc_open_percent(double prev_close){ open_percent_change = (open / prev_close) - 1; }
+    public void calc_open_percent(double prev_close){ open_percent_change = calc_percent_change(prev_close, open); }
 
 
     public String toString(){

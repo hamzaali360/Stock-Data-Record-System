@@ -22,7 +22,7 @@ class ValidateTest {
     @Test
     void validate_MorningPanicEnvelope_Test() {
         MorningPanicEnvelope envelope = new MorningPanicEnvelope();
-        assertEquals(true, validate_MorningPanicEnvelope(envelope));
+        assertEquals(true, validate_MorningPanicEnvelope(envelope).valid);
     }
 
 }

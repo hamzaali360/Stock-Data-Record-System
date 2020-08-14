@@ -1,4 +1,4 @@
-package com.example.demo.webscraper;
+package com.example.demo.webscraper.util;
 
 import org.junit.jupiter.api.Test;
 
@@ -36,6 +36,17 @@ class TransformerTest {
         assertEquals(1000000, unit_multiplier("M"));
         assertEquals(1000, unit_multiplier("k"));
         assertEquals(1, unit_multiplier("1"));
+        assertEquals(1, unit_multiplier("100"));
+    }
 
+
+    @Test
+    void round_Test(){
+        assertEquals(10.01, round(10.0111111111, 2));
+        assertEquals(10.00, round(10, 2));
+        assertEquals(0.0, round(0.01, 1));
+        assertEquals(10, round(10.111, 0));
+        assertEquals(-1.8, round(-1.7894325,1));
+        assertEquals(-1.5, round(-1.4894325,1));
     }
 }

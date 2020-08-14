@@ -4,8 +4,15 @@ import java.time.Duration;
 import java.time.LocalTime;
 
 import static com.example.demo.util.Validate.isTime;
+import static com.example.demo.webscraper.util.Transformer.round;
 
 public class Analyis {
+
+    public static double calc_percent_change(double start, double end){
+        if(start < end || start > end) { return round(((end/start) -1)*100, 2); }
+        else { return 0.0; }
+    }
+
     public static String calc_time_elapsed(String start_str, String end_str){
         if(!isTime(start_str) || !isTime(end_str)){
             System.out.println("Invalid paramaters");
@@ -20,8 +27,10 @@ public class Analyis {
         Duration duration = Duration.between(start, end);
 
         String hours = String.valueOf(duration.toHoursPart());
-        String minutes = String.valueOf(duration.toMinutesPart());
+        int int_minutes = duration.toMinutesPart();
+        String minutes = String.valueOf(int_minutes);
         if(minutes.equals("0")){ minutes += "0"; }
+        else if(int_minutes < 10){ minutes = "0"+minutes; }
 
         String time_elapsed = hours+":"+minutes;
 

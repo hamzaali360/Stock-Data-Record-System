@@ -1,4 +1,4 @@
-package com.example.demo.webscraper;
+package com.example.demo.webscraper.util;
 
 import org.junit.jupiter.api.Test;
 
