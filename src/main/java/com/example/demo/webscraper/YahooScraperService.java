@@ -1,8 +1,8 @@
 package com.example.demo.webscraper;
 
-import com.example.demo.webscraper.model.Historical_Data;
-import com.example.demo.webscraper.model.Complete_Record;
-import com.example.demo.webscraper.model.Data;
+import com.example.demo.webscraper.models.HistoricalData;
+import com.example.demo.webscraper.models.CompleteRecord;
+import com.example.demo.webscraper.models.Data;
 import com.example.demo.webscraper.util.Validate;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -17,10 +17,10 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import static com.example.demo.webscraper.processing.Yahoo_Data_Processor.*;
+import static com.example.demo.webscraper.processing.YahooDataProcessor.*;
 
 // This class uses Jsoup to scrape the HTML from Yahoo Finance pages. Uses the
-// Yahoo_Data_Processor to create objects from the scraped data.
+// YahooDataProcessor to create objects from the scraped data.
 
 @Service
 public class YahooScraperService {
@@ -30,7 +30,7 @@ public class YahooScraperService {
     // Returns an object that contains statistics and historical data on a symbol starting at
     // a given time_stamp. The historical data size depends on the history_length parameter.
     // Assumes valid parameters.
-    public Complete_Record scrape_symbol(String symbol, String date, int history_length){
+    public CompleteRecord scrape_symbol(String symbol, String date, int history_length){
         // Parameter validation (Moved to envelope validation)
         //if(!validate_parameters(symbol, date, history_length)){ System.out.println("Invalid scrape parameters."); return null; }
 
@@ -39,7 +39,7 @@ public class YahooScraperService {
         System.out.println("Date: " + date);
         System.out.println();
 
-        Complete_Record record = new Complete_Record(symbol);
+        CompleteRecord record = new CompleteRecord(symbol);
         
         try { retrieve_statistics(symbol, record.data);
               retrieve_historical_data(symbol, date, history_length, record);
@@ -59,10 +59,10 @@ public class YahooScraperService {
 
     // Retrieves list of historical data beginning at the time_stamp provided and reaches back history_length amount of
     // days, where the market has been open on these days.
-    private void retrieve_historical_data(String symbol, String date, int history_length, Complete_Record record){
+    private void retrieve_historical_data(String symbol, String date, int history_length, CompleteRecord record){
         String time = "17:00:00 CST";
         String time_stamp = date+" "+time;
-        ZonedDateTime day  = ZonedDateTime.parse(time_stamp, Historical_Data.dtf);
+        ZonedDateTime day  = ZonedDateTime.parse(time_stamp, HistoricalData.dtf);
         DayOfWeek dayOfWeek = day.getDayOfWeek();
 
         history_length += 1; // Added day to calculate open_percentage on final day in history. Is removed. 
@@ -89,7 +89,7 @@ public class YahooScraperService {
 
         String start = String.valueOf(zdt.toInstant().toEpochMilli()).substring(0, 10);
         String end = String.valueOf(next_day.toInstant().toEpochMilli()).substring(0, 10);
-        List<Historical_Data> records = scrape_historical_pricing(start, end, symbol);
+        List<HistoricalData> records = scrape_historical_pricing(start, end, symbol);
         cut_future_records(records, day);
         calc_open_percentage(records, history_length);
         remove_added_day(records, history_length);
@@ -98,8 +98,8 @@ public class YahooScraperService {
     }
 
 
-    // Historical_Data is in descending order
-    private void calc_open_percentage(List<Historical_Data> historical_data, int history_length){
+    // HistoricalData is in descending order
+    private void calc_open_percentage(List<HistoricalData> historical_data, int history_length){
         for(int i=0; i<history_length; i++){
             if(i != history_length -1){
                 historical_data.get(i).calc_open_percent(historical_data.get(i+1).close);
@@ -107,7 +107,7 @@ public class YahooScraperService {
         }
     }
 
-    private void remove_added_day(List<Historical_Data> historical_data, int historical_length){
+    private void remove_added_day(List<HistoricalData> historical_data, int historical_length){
         historical_data.remove(historical_length-1);
     }
     
@@ -115,10 +115,10 @@ public class YahooScraperService {
     // start   - start time_stamp of historical pricing search
     // end     - end time_stamp of historical pricing search
     // symbol  - stock symbol
-    private List<Historical_Data> scrape_historical_pricing(String start, String end, String symbol)  {
+    private List<HistoricalData> scrape_historical_pricing(String start, String end, String symbol)  {
         String url = "https://finance.yahoo.com/quote/"+symbol+"/history?period1="+start+"&period2="+end+"&interval=1d&filter=history&frequency=1d";
         //System.out.println(url);
-        LinkedList<Historical_Data> records = new LinkedList();
+        LinkedList<HistoricalData> records = new LinkedList();
 
         try {
             Document document = Jsoup.connect(url).get();
@@ -129,7 +129,7 @@ public class YahooScraperService {
 
             for (Element row : trows) {
                 List<String> values = row.children().eachText();
-                if(values.size() == 7){ records.add(new Historical_Data(values));}
+                if(values.size() == 7){ records.add(new HistoricalData(values));}
                 else{ System.out.println("Error creating historical data record"); }
             }
         }

@@ -2,8 +2,8 @@ package com.example.demo.webscraper.util;
 
 import java.time.ZonedDateTime;
 
-import static com.example.demo.webscraper.model.Historical_Data.default_time;
-import static com.example.demo.webscraper.model.Historical_Data.dtf;
+import static com.example.demo.webscraper.models.HistoricalData.default_time;
+import static com.example.demo.webscraper.models.HistoricalData.dtf;
 
 public class Validate {
     public static boolean validateJavaDate(String strDate) {
