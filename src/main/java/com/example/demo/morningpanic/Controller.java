@@ -2,7 +2,7 @@ package com.example.demo.morningpanic;
 
 
 import com.example.demo.morningpanic.models.Envelope;
-import com.example.demo.common.models.ResponseObject;
+import com.example.demo.common.models.Response;
 import com.example.demo.webscraper.YahooScraperService;
 import com.example.demo.webscraper.models.CompleteRecord;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +27,9 @@ public class Controller {
     @RequestMapping(method=RequestMethod.POST, value="/morning_panic")
     public ResponseEntity<String> addRecord(@RequestBody Envelope envelope){
         System.out.println(envelope.toString());
+//        return new ResponseEntity<>("Success", HttpStatus.CREATED);
 
-        ResponseObject response = validate_MorningPanicEnvelope(envelope);
+        Response response = validate_MorningPanicEnvelope(envelope);
 
         if(!response.valid){
             System.out.println("Error in Morning Panic Envelope");
@@ -44,6 +45,4 @@ public class Controller {
         }else{ return new ResponseEntity<>("Webscraper failure (NULL).", HttpStatus.FAILED_DEPENDENCY); }
 
     }
-
-
 }

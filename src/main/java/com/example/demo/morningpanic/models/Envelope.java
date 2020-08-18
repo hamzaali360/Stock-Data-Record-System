@@ -15,6 +15,7 @@ public class Envelope {
     public List<KeyLevelEntity> key_levels;
     public List<TechnicalIndicatorBehaviorEntity> technical_indicator_behaviors;
 
+
     public Envelope(){
         date = "2020-01-01";
         history_length = 0;

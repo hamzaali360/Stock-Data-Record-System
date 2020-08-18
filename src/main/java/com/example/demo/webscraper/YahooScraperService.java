@@ -72,7 +72,7 @@ public class YahooScraperService {
             return;
         }
 
-        // Get end point (next day)
+        // Get end bounce_point (next day)
         ZonedDateTime next_day;
         if(dayOfWeek.equals(DayOfWeek.FRIDAY)){ next_day = day.plusDays(3); }
         else{ next_day = day.plusDays(1); }
@@ -80,7 +80,7 @@ public class YahooScraperService {
         int i = 0;
         ZonedDateTime zdt = day;
 
-        // Get start point (history_length is the amount of days where the market has been open.
+        // Get start bounce_point (history_length is the amount of days where the market has been open.
         while(i < history_length){
             zdt = zdt.minusDays(1);
             DayOfWeek dayofweek = zdt.getDayOfWeek();
