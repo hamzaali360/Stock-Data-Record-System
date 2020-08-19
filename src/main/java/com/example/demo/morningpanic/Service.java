@@ -3,10 +3,7 @@ package com.example.demo.morningpanic;
 import com.example.demo.morningpanic.models.Envelope;
 import com.example.demo.morningpanic.entities.DataEntity;
 import com.example.demo.morningpanic.entities.HistoricalDataEntity;
-import com.example.demo.morningpanic.repositories.DataRepository;
-import com.example.demo.morningpanic.repositories.HistoricalDataRepository;
-import com.example.demo.morningpanic.repositories.KeyLevelRepository;
-import com.example.demo.morningpanic.repositories.TechnicalIndicatorBehaviorRepository;
+import com.example.demo.morningpanic.repositories.*;
 import com.example.demo.webscraper.models.CompleteRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -24,8 +21,11 @@ public class Service {
     private KeyLevelRepository keyLevelRepository;
     @Autowired
     private TechnicalIndicatorBehaviorRepository technicalIndicatorBehaviorRepository;
-    
-    
+    @Autowired
+    private FailedBounceRepository failedBounceRepository;
+    @Autowired
+    private PullbackBounceRepository pullbackBounceRepository;
+
     public void addRecord(CompleteRecord record, Envelope envelope){
         DataEntity data = new DataEntity(record.data, envelope);
         dataRepository.save(data);
@@ -56,7 +56,21 @@ public class Service {
             envelope.technical_indicator_behaviors.get(i).dataId = primary_key;
             technicalIndicatorBehaviorRepository.save(envelope.technical_indicator_behaviors.get(i));
         }
-        
+
+        // Failed Bounce
+        for(int i=0; i<envelope.failed_bounces.size(); i++){
+            envelope.failed_bounces.get(i).dataId = primary_key;
+            envelope.failed_bounces.get(i).calculateMetrics();
+            failedBounceRepository.save(envelope.failed_bounces.get(i));
+        }
+
+        // Pullback Bounce
+        for(int i=0; i<envelope.pullback_bounces.size(); i++){
+            envelope.pullback_bounces.get(i).dataId = primary_key;
+            envelope.pullback_bounces.get(i).calculateMetrics();
+            pullbackBounceRepository.save(envelope.pullback_bounces.get(i));
+        }
+
         System.out.println("Saved record");
     }
 

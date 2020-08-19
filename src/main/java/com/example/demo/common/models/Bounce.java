@@ -5,6 +5,8 @@ import javax.persistence.*;
 import static com.example.demo.common.util.Analyis.calc_percent_change;
 import static com.example.demo.common.util.Analyis.calc_time_elapsed;
 
+
+@MappedSuperclass
 @Embeddable
 public class Bounce {
 
