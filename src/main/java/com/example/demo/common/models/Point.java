@@ -3,6 +3,8 @@ package com.example.demo.common.models;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
+import static com.example.demo.common.models.Common_Values.null_time;
+
 @Embeddable
 public class Point {
 
@@ -13,7 +15,7 @@ public class Point {
 
     public Point(){
         price = 0;
-        time = "00:00";
+        time = null_time;
     }
 
     public String toString(){

@@ -5,6 +5,7 @@ import com.example.demo.webscraper.util.Transformer;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
+
 @MappedSuperclass
 public class Data {
 

@@ -1,5 +1,6 @@
 package com.example.demo.API.features.morningpanic.stepDefinitions;
 
+import com.example.demo.common.ErrorResponseBodies;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -36,6 +37,11 @@ public class MorningPanicSteps {
     @And("^the body is \"([^\"]*)\"$")
     public void theBodyIs(String responseBody) {
         assertEquals(responseBody, response.body());
+    }
+
+    @And("^the body is for an \"([^\"]*)\"$")
+    public void theBodyIsForAn(String responseBody) {
+        assertEquals(ErrorResponseBodies.get(responseBody), response.body());
     }
 
 }

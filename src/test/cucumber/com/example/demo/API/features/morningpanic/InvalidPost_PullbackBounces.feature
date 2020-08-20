@@ -1,49 +1,7 @@
-Feature: Valid POST Requests
-    Scenario: Only data section success
-        When the following JSON response is sent
-        """
-        {
-            "history_length" : 5,
-            "date" : "2020-07-10",
+Feature: Invalid POST Requests: Pullback_Bounces
 
-            "data" : {
-               "symbol" : "UAVS",
-                "sector" : "Drone",
-
-                "premarket" : {
-                    "high" : {
-                        "price" : 1.65,
-                        "time" : "7:27"
-                    },
-                    "low_after_high" : {
-                        "price" : 1.59,
-                        "time" : "8:01"
-                    }
-                },
-
-                "panic_bounce" : {
-                    "drop" : {
-                        "price" : 1.62,
-                        "time" : "8:30"
-                    },
-                    "bottom" : {
-                        "price" : 1.55,
-                        "time" : "8:36"
-                    },
-                    "top" : {
-                        "price" : 1.75,
-                        "time" : "8:41"
-                    }
-                }
-            }
-        }
-        """
-        Then the response code is 201
-        And the body is "Success"
-
-
-    Scenario: Data and catalyst sections success
-        When the following JSON response is sent
+  Scenario: Invalid pullback_bounces.drop.price
+    When the following JSON response is sent
         """
         {
             "history_length" : 5,
@@ -80,140 +38,305 @@ Feature: Valid POST Requests
                 }
             },
 
-            "catalysts" : [
-                {
-                    "date" : "2020-07-10",
-                    "time" : "7:27",
-                    "description" : "Won a contract"
-                }
-            ]
-        }
-        """
-        Then the response code is 201
-        And the body is "Success"
-
-
-    Scenario: Data section, key levels and technical indicator behavior sections success
-        When the following JSON response is sent
-        """
-        {
-            "history_length" : 5,
-            "date" : "2020-07-10",
-
-            "data" : {
-                "symbol" : "UAVS",
-                "sector" : "Drone",
-
-                "premarket" : {
-                    "high" : {
-                        "price" : 1.65,
-                        "time" : "7:27"
-                    },
-                    "low_after_high" : {
-                        "price" : 1.59,
-                        "time" : "8:01"
-                    }
-                },
-
-                "panic_bounce" : {
+            "pullback_bounces" : [
+                    {
                     "drop" : {
-                        "price" : 1.62,
-                        "time" : "8:30"
-                    },
-                    "bottom" : {
-                        "price" : 1.55,
-                        "time" : "8:36"
-                    },
-                    "top" : {
-                        "price" : 1.75,
-                        "time" : "8:41"
-                    }
-                }
-            },
-
-            "key_levels" : [
-                {
-                    "price" : 1.50,
-                    "type" : "Resistance"
-                },
-                {
-                    "price" : 2.51,
-                    "type" : "Breakout"
-                }
-            ],
-
-            "technical_indicator_behaviors" : [
-                {
-                    "price" : 1.77,
-                    "time" : "9:13",
-                    "type" : "Bullish VWAP Crossover"
-                },
-                {
-                    "price" : 1.80,
-                    "time" : "9:20",
-                    "type" : "VWAP Bounce"
-                }
-            ]
-        }
-        """
-        Then the response code is 201
-        And the body is "Success"
-
-
-    Scenario: Data section, key levels, technical indicator behavior, failed bounces and pullback bounces sections success
-        When the following JSON response is sent
-        """
-        {
-            "history_length" : 5,
-            "date" : "2020-07-10",
-
-            "data" : {
-                "symbol" : "UAVS",
-                "sector" : "Drone",
-
-                "premarket" : {
-                    "high" : {
-                        "price" : 1.65,
-                        "time" : "7:27"
-                    },
-                    "low_after_high" : {
-                        "price" : 1.59,
-                        "time" : "8:01"
-                    }
-                },
-
-                "panic_bounce" : {
-                    "drop" : {
-                        "price" : 1.62,
-                        "time" : "8:30"
-                    },
-                    "bottom" : {
-                        "price" : 1.55,
-                        "time" : "8:36"
-                    },
-                    "top" : {
-                        "price" : 1.75,
-                        "time" : "8:41"
-                    }
-                }
-            },
-
-            "failed_bounces" : [
-                {
-                    "drop" : {
-                        "price" : 1.62,
-                        "time" : "8:30"
+                        "price" : -1.60,
+                        "time" : "8:38"
                     },
                     "bottom" : {
                         "price" : 1.57,
-                        "time" : "8:32"
+                        "time" : "8:39"
                     },
                     "top" : {
-                        "price" : 1.60,
-                        "time" : "8:33"
+                        "price" : 1.75,
+                        "time" : "8:41"
                     }
                 }
-            ],
+            ]
+        }
+        """
+    Then the response code is 400
+    And the body is for an "Invalid pullback_bounces.drop.price"
+
+
+  Scenario: Invalid pullback_bounces.drop.time
+    When the following JSON response is sent
+        """
+        {
+            "history_length" : 5,
+            "date" : "2020-07-10",
+
+            "data" : {
+               "symbol" : "UAVS",
+                "sector" : "Drone",
+
+                "premarket" : {
+                    "high" : {
+                        "price" : 1.65,
+                        "time" : "7:27"
+                    },
+                    "low_after_high" : {
+                        "price" : 1.59,
+                        "time" : "8:01"
+                    }
+                },
+
+                "panic_bounce" : {
+                    "drop" : {
+                        "price" : 1.62,
+                        "time" : "8:30"
+                    },
+                    "bottom" : {
+                        "price" : 1.55,
+                        "time" : "8:36"
+                    },
+                    "top" : {
+                        "price" : 1.75,
+                        "time" : "8:41"
+                    }
+                }
+            },
+
+            "pullback_bounces" : [
+                    {
+                    "drop" : {
+                        "price" : 1.60,
+                        "time" : "8:38a"
+                    },
+                    "bottom" : {
+                        "price" : 1.57,
+                        "time" : "8:39"
+                    },
+                    "top" : {
+                        "price" : 1.75,
+                        "time" : "8:41"
+                    }
+                }
+            ]
+        }
+        """
+    Then the response code is 400
+    And the body is for an "Invalid pullback_bounces.drop.time"
+
+
+  Scenario: Invalid pullback_bounces.bottom.price
+    When the following JSON response is sent
+        """
+        {
+            "history_length" : 5,
+            "date" : "2020-07-10",
+
+            "data" : {
+               "symbol" : "UAVS",
+                "sector" : "Drone",
+
+                "premarket" : {
+                    "high" : {
+                        "price" : 1.65,
+                        "time" : "7:27"
+                    },
+                    "low_after_high" : {
+                        "price" : 1.59,
+                        "time" : "8:01"
+                    }
+                },
+
+                "panic_bounce" : {
+                    "drop" : {
+                        "price" : 1.62,
+                        "time" : "8:30"
+                    },
+                    "bottom" : {
+                        "price" : 1.55,
+                        "time" : "8:36"
+                    },
+                    "top" : {
+                        "price" : 1.75,
+                        "time" : "8:41"
+                    }
+                }
+            },
+
+            "pullback_bounces" : [
+                    {
+                    "drop" : {
+                        "price" : 1.60,
+                        "time" : "8:38"
+                    },
+                    "bottom" : {
+                        "price" : -1.57,
+                        "time" : "8:39"
+                    },
+                    "top" : {
+                        "price" : 1.75,
+                        "time" : "8:41"
+                    }
+                }
+            ]
+        }
+        """
+    Then the response code is 400
+    And the body is for an "Invalid pullback_bounces.bottom.price"
+
+
+  Scenario: Invalid pullback_bounces.bottom.time
+    When the following JSON response is sent
+        """
+        {
+            "history_length" : 5,
+            "date" : "2020-07-10",
+
+            "data" : {
+               "symbol" : "UAVS",
+                "sector" : "Drone",
+
+                "premarket" : {
+                    "high" : {
+                        "price" : 1.65,
+                        "time" : "7:27"
+                    },
+                    "low_after_high" : {
+                        "price" : 1.59,
+                        "time" : "8:01"
+                    }
+                },
+
+                "panic_bounce" : {
+                    "drop" : {
+                        "price" : 1.62,
+                        "time" : "8:30"
+                    },
+                    "bottom" : {
+                        "price" : 1.55,
+                        "time" : "8:36"
+                    },
+                    "top" : {
+                        "price" : 1.75,
+                        "time" : "8:41"
+                    }
+                }
+            },
+
+            "pullback_bounces" : [
+                    {
+                    "drop" : {
+                        "price" : 1.60,
+                        "time" : "8:38"
+                    },
+                    "bottom" : {
+                        "price" : 1.57,
+                        "time" : "a8:39"
+                    },
+                    "top" : {
+                        "price" : 1.75,
+                        "time" : "8:41"
+                    }
+                }
+            ]
+        }
+        """
+    Then the response code is 400
+    And the body is for an "Invalid pullback_bounces.bottom.time"
+
+
+  Scenario: Invalid pullback_bounces.top.price
+    When the following JSON response is sent
+        """
+        {
+            "history_length" : 5,
+            "date" : "2020-07-10",
+
+            "data" : {
+               "symbol" : "UAVS",
+                "sector" : "Drone",
+
+                "premarket" : {
+                    "high" : {
+                        "price" : 1.65,
+                        "time" : "7:27"
+                    },
+                    "low_after_high" : {
+                        "price" : 1.59,
+                        "time" : "8:01"
+                    }
+                },
+
+                "panic_bounce" : {
+                    "drop" : {
+                        "price" : 1.62,
+                        "time" : "8:30"
+                    },
+                    "bottom" : {
+                        "price" : 1.55,
+                        "time" : "8:36"
+                    },
+                    "top" : {
+                        "price" : 1.75,
+                        "time" : "8:41"
+                    }
+                }
+            },
+
+            "pullback_bounces" : [
+                    {
+                    "drop" : {
+                        "price" : 1.60,
+                        "time" : "8:38"
+                    },
+                    "bottom" : {
+                        "price" : 1.57,
+                        "time" : "8:39"
+                    },
+                    "top" : {
+                        "price" : -1.75,
+                        "time" : "8:41"
+                    }
+                }
+            ]
+        }
+        """
+    Then the response code is 400
+    And the body is for an "Invalid pullback_bounces.top.price"
+
+
+  Scenario: Invalid pullback_bounces.top.time
+    When the following JSON response is sent
+        """
+        {
+            "history_length" : 5,
+            "date" : "2020-07-10",
+
+            "data" : {
+               "symbol" : "UAVS",
+                "sector" : "Drone",
+
+                "premarket" : {
+                    "high" : {
+                        "price" : 1.65,
+                        "time" : "7:27"
+                    },
+                    "low_after_high" : {
+                        "price" : 1.59,
+                        "time" : "8:01"
+                    }
+                },
+
+                "panic_bounce" : {
+                    "drop" : {
+                        "price" : 1.62,
+                        "time" : "8:30"
+                    },
+                    "bottom" : {
+                        "price" : 1.55,
+                        "time" : "8:36"
+                    },
+                    "top" : {
+                        "price" : 1.75,
+                        "time" : "8:41"
+                    }
+                }
+            },
 
             "pullback_bounces" : [
                     {
@@ -227,153 +350,11 @@ Feature: Valid POST Requests
                     },
                     "top" : {
                         "price" : 1.75,
-                        "time" : "8:41"
-                    }
-                }
-            ],
-
-            "key_levels" : [
-                {
-                    "price" : 1.50,
-                    "type" : "Resistance"
-                },
-                {
-                    "price" : 2.51,
-                    "type" : "Breakout"
-                }
-            ],
-
-            "technical_indicator_behaviors" : [
-                {
-                    "price" : 1.77,
-                    "time" : "9:13",
-                    "type" : "Bullish VWAP Crossover"
-                },
-                {
-                    "price" : 1.80,
-                    "time" : "9:20",
-                    "type" : "VWAP Bounce"
-                }
-            ]
-        }
-        """
-        Then the response code is 201
-        And the body is "Success"
-
-
-    Scenario: Data section, key levels, technical indicator behavior, failed bounces, pullback bounces and failed spikes sections success
-        When the following JSON response is sent
-        """
-        {
-            "history_length" : 5,
-            "date" : "2020-07-10",
-
-            "data" : {
-                "symbol" : "UAVS",
-                "sector" : "Drone",
-
-                "premarket" : {
-                    "high" : {
-                        "price" : 1.65,
-                        "time" : "7:27"
-                    },
-                    "low_after_high" : {
-                        "price" : 1.59,
-                        "time" : "8:01"
-                    }
-                },
-
-                "panic_bounce" : {
-                    "drop" : {
-                        "price" : 1.62,
-                        "time" : "8:30"
-                    },
-                    "bottom" : {
-                        "price" : 1.55,
-                        "time" : "8:36"
-                    },
-                    "top" : {
-                        "price" : 1.75,
-                        "time" : "8:41"
-                    }
-                }
-            },
-
-            "failed_bounces" : [
-                {
-                    "drop" : {
-                        "price" : 1.62,
-                        "time" : "8:30"
-                    },
-                    "bottom" : {
-                        "price" : 1.57,
-                        "time" : "8:32"
-                    },
-                    "top" : {
-                        "price" : 1.60,
-                        "time" : "8:33"
-                    }
-                }
-            ],
-
-            "pullback_bounces" : [
-                    {
-                    "drop" : {
-                        "price" : 1.60,
-                        "time" : "8:38"
-                    },
-                    "bottom" : {
-                        "price" : 1.57,
-                        "time" : "8:39"
-                    },
-                    "top" : {
-                        "price" : 1.75,
-                        "time" : "8:41"
-                    }
-                }
-            ],
-
-            "key_levels" : [
-                {
-                    "price" : 1.50,
-                    "type" : "Resistance"
-                },
-                {
-                    "price" : 2.51,
-                    "type" : "Breakout"
-                }
-            ],
-
-            "technical_indicator_behaviors" : [
-                {
-                    "price" : 1.77,
-                    "time" : "9:13",
-                    "type" : "Bullish VWAP Crossover"
-                },
-                {
-                    "price" : 1.80,
-                    "time" : "9:20",
-                    "type" : "VWAP Bounce"
-                }
-            ],
-
-            "failed_morning_spikes" : [
-                {
-                    "start" : {
-                        "price" : 1.60,
-                        "time" : "8:31"
-                    },
-                    "top" : {
-                        "price" : 1.66,
-                        "time" : "8:32"
-                    },
-                    "bottom" : {
-                        "price" : 1.55,
-                        "time" : "8:36"
+                        "time" : "8:41a"
                     }
                 }
             ]
         }
         """
-        Then the response code is 201
-        And the body is "Success"
+    Then the response code is 400
+    And the body is for an "Invalid pullback_bounces.top.time"

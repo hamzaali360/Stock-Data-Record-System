@@ -6,6 +6,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import static com.example.demo.common.models.Common_Values.null_date;
 import static com.example.demo.common.util.Analyis.calc_percent_change;
 import static com.example.demo.webscraper.util.Transformer.round;
 import static com.example.demo.webscraper.util.Transformer.transform_to_unit;
@@ -37,8 +38,7 @@ public class HistoricalData {
 
     // Webscraping constructor
     public HistoricalData(List<String> values){
-        String record_time_stamp = values.get(0)+" "+default_time;
-        time_stamp = ZonedDateTime.parse(record_time_stamp,yahoo_dtf);
+        time_stamp = ZonedDateTime.parse(values .get(0)+" "+default_time,yahoo_dtf);
         open = Double.parseDouble(values.get(1));
         high = Double.parseDouble(values.get(2));
         low = Double.parseDouble(values.get(3));
@@ -63,8 +63,7 @@ public class HistoricalData {
 
 
     public HistoricalData(){
-        String record_time_stamp = "2020-01-01 "+ default_time;
-        time_stamp = ZonedDateTime.parse(record_time_stamp,dtf);
+        time_stamp = ZonedDateTime.parse(null_date+" "+ default_time, dtf);
         open = 0;
         high = 0;
         low = 0;

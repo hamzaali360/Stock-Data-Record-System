@@ -5,6 +5,8 @@ import com.example.demo.morningpanic.entities.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.demo.common.models.Common_Values.null_date;
+
 public class Envelope {
     public String date;
     public int history_length;
@@ -14,16 +16,20 @@ public class Envelope {
     public List<TechnicalIndicatorBehaviorEntity> technical_indicator_behaviors;
     public List<FailedBounceEntity> failed_bounces;
     public List<PullbackBounceEntity> pullback_bounces;
+    public List<FailedMorningSpikeEntity> failed_morning_spikes;
+    public List<CatalystEntity> catalysts;
 
 
     public Envelope(){
-        date = "2020-01-01";
+        date = null_date;
         history_length = 0;
         data = new DataEntity();
         key_levels = new ArrayList<>();
         technical_indicator_behaviors = new ArrayList<>();
         failed_bounces = new ArrayList<>();
         pullback_bounces = new ArrayList<>();
+        failed_morning_spikes = new ArrayList<>();
+        catalysts = new ArrayList<>();
     }
 
     @Override
@@ -37,6 +43,11 @@ public class Envelope {
         for(int i=0; i<failed_bounces.size(); i++){ str += failed_bounces.get(i).toString(); }
         str += "\n"+"--- PULLBACK BOUNCES ---"+"\n";
         for(int i=0; i<pullback_bounces.size(); i++){ str += pullback_bounces.get(i).toString(); }
+        str+= "\n"+"--- FAILED MORNING SPIKES ---"+"\n";
+        for(int i=0; i<failed_morning_spikes.size(); i++){ str += failed_morning_spikes.get(i).toString(); }
+        str += "\n"+"--- CATALYSTS ---"+"\n";
+        for(int i=0; i<catalysts.size(); i++){ str += catalysts.get(i).toString(); }
+
         return str;
     }
 }

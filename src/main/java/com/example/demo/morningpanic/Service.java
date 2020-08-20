@@ -25,6 +25,11 @@ public class Service {
     private FailedBounceRepository failedBounceRepository;
     @Autowired
     private PullbackBounceRepository pullbackBounceRepository;
+    @Autowired
+    private FailedMorningSpikeRepository failedMorningSpikeRepository;
+    @Autowired
+    private CatalystRepository catalystRepository;
+
 
     public void addRecord(CompleteRecord record, Envelope envelope){
         DataEntity data = new DataEntity(record.data, envelope);
@@ -69,6 +74,19 @@ public class Service {
             envelope.pullback_bounces.get(i).dataId = primary_key;
             envelope.pullback_bounces.get(i).calculateMetrics();
             pullbackBounceRepository.save(envelope.pullback_bounces.get(i));
+        }
+
+        // Failed Morning Spike
+        for(int i=0; i<envelope.failed_morning_spikes.size(); i++){
+            envelope.failed_morning_spikes.get(i).dataId = primary_key;
+            envelope.failed_morning_spikes.get(i).calculateMetrics();
+            failedMorningSpikeRepository.save(envelope.failed_morning_spikes.get(i));
+        }
+
+        // Catalysts
+        for(int i=0; i<envelope.catalysts.size(); i++){
+            envelope.catalysts.get(i).dataId = primary_key;
+            catalystRepository.save(envelope.catalysts.get(i));
         }
 
         System.out.println("Saved record");

@@ -2,6 +2,7 @@ package com.example.demo.common.models;
 
 import javax.persistence.*;
 
+import static com.example.demo.common.models.Common_Values.null_time;
 import static com.example.demo.common.util.Analyis.calc_percent_change;
 import static com.example.demo.common.util.Analyis.calc_time_elapsed;
 
@@ -34,8 +35,6 @@ public class Bounce {
     public String panic_time_length; // calculated
     public String bounce_time_length; // calculated
 
-    @Transient
-    public String null_time = "00:00";
 
     public Bounce(){
         drop = new Point();

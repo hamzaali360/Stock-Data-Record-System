@@ -26,12 +26,10 @@ public class Controller {
 
     @RequestMapping(method=RequestMethod.POST, value="/morning_panic")
     public ResponseEntity<String> addRecord(@RequestBody Envelope envelope){
-        System.out.println(envelope.toString());
-//        return new ResponseEntity<>("Success", HttpStatus.CREATED);
-
+        //System.out.println(envelope.toString());
         Response response = validate_MorningPanicEnvelope(envelope);
 
-        if(!response.valid){
+        if(!response.valid) {
             System.out.println("Error in Morning Panic Envelope");
             return new ResponseEntity<>(response.response, HttpStatus.BAD_REQUEST);
         }

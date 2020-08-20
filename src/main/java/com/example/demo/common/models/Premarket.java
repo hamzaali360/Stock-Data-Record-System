@@ -2,6 +2,7 @@ package com.example.demo.common.models;
 
 import javax.persistence.*;
 
+import static com.example.demo.common.models.Common_Values.null_time;
 import static com.example.demo.common.util.Analyis.calc_percent_change;
 import static com.example.demo.common.util.Analyis.calc_time_elapsed;
 
@@ -30,7 +31,7 @@ public class Premarket {
         high = new Point();
         low_after_high = new Point();
         pullback_percent = 0.0;
-        pullback_time_length = "00:00";
+        pullback_time_length = null_time;
     }
 
     public void calculateMetrics(){

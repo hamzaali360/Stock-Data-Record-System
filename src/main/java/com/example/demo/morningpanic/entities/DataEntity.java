@@ -28,6 +28,7 @@ public class DataEntity extends Data{
     public DataEntity(){
         super();
         dataId = 0;
+        premarket = new Premarket();
         panic_bounce = new Bounce();
     }
 
