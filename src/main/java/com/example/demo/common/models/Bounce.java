@@ -15,19 +15,22 @@ public class Bounce {
     @Embedded
     @AttributeOverrides({
             @AttributeOverride( name = "price", column = @Column(name = "drop_point_price")),
-            @AttributeOverride( name = "time", column = @Column(name = "drop_point_time"))
+            @AttributeOverride( name = "time", column = @Column(name = "drop_point_time")),
+            @AttributeOverride( name = "significance", column = @Column(name = "drop_point_significance"))
     })
     public Point drop;
     @Embedded
     @AttributeOverrides({
             @AttributeOverride( name = "price", column = @Column(name = "bottom_point_price")),
-            @AttributeOverride( name = "time", column = @Column(name = "bottom_point_time"))
+            @AttributeOverride( name = "time", column = @Column(name = "bottom_point_time")),
+            @AttributeOverride( name = "significance", column = @Column(name = "bottom_point_significance"))
     })
     public Point bottom;
     @Embedded
     @AttributeOverrides({
             @AttributeOverride( name = "price", column = @Column(name = "top_point_price")),
-            @AttributeOverride( name = "time", column = @Column(name = "top_point_time"))
+            @AttributeOverride( name = "time", column = @Column(name = "top_point_time")),
+            @AttributeOverride( name = "significance", column = @Column(name = "top_point_significance"))
     })
     public Point top;
     Double drop_percent; // calculated

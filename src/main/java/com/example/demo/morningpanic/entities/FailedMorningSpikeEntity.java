@@ -23,7 +23,9 @@ public class FailedMorningSpikeEntity extends Spike {
     @Embedded
     @AttributeOverrides({
             @AttributeOverride( name = "price", column = @Column(name = "bottom_point_price")),
-            @AttributeOverride( name = "time", column = @Column(name = "bottom_point_time"))
+            @AttributeOverride( name = "time", column = @Column(name = "bottom_point_time")),
+            @AttributeOverride( name = "significance", column = @Column(name = "bottom_point_significance"))
+
     })
     public Point bottom;
     public double drop_percent;

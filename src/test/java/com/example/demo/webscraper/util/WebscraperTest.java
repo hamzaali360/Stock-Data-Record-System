@@ -9,7 +9,7 @@ public class WebscraperTest {
     @Test
     public void webscraperTest(){
         YahooScraperService yahooScraperService = new YahooScraperService();
-        CompleteRecord record = yahooScraperService.scrape_symbol("UAVS", "2020-08-19", 10);
+        CompleteRecord record = yahooScraperService.scrape_symbol("CVAC", "2020-08-19", 3);
         System.out.println(record.toString_formatted());
     }
 }

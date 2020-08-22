@@ -4,7 +4,7 @@ import com.example.demo.morningpanic.models.Envelope;
 import org.junit.jupiter.api.Test;
 
 import static com.example.demo.common.util.Validate.isTime;
-import static com.example.demo.common.util.Validate.validate_MorningPanicEnvelope;
+import static com.example.demo.common.util.Validate.validateMorningPanicEnvelope;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ValidateTest {
@@ -22,7 +22,7 @@ class ValidateTest {
     @Test
     void validate_MorningPanicEnvelope_Test() {
         Envelope envelope = new Envelope();
-        assertEquals(true, validate_MorningPanicEnvelope(envelope).valid);
+        assertEquals(true, validateMorningPanicEnvelope(envelope).valid);
     }
 
 }

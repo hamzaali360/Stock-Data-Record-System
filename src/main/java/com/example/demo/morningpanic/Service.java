@@ -16,6 +16,10 @@ public class Service {
     @Autowired
     private DataRepository dataRepository;
     @Autowired
+    private PremarketRepository premarketRepository;
+    @Autowired
+    private MainPanicBounceRepository mainPanicBounceRepository;
+    @Autowired
     private HistoricalDataRepository historicalDataRepository;
     @Autowired
     private KeyLevelRepository keyLevelRepository;
@@ -49,7 +53,17 @@ public class Service {
         for(int i=0; i<length; i++){
             historicalDataRepository.save(historicalData.get(i));
         }
-        
+
+        // Premarket
+        envelope.premarket.dataId = primary_key;
+        envelope.premarket.calculateMetrics();
+        premarketRepository.save(envelope.premarket);
+
+        // Main Panic Bounce
+        envelope.main_panic_bounce.dataId = primary_key;
+        envelope.main_panic_bounce.calculateMetrics();
+        mainPanicBounceRepository.save(envelope.main_panic_bounce);
+
         // Key Levels
         for(int i=0; i<envelope.key_levels.size(); i++){
             envelope.key_levels.get(i).dataId = primary_key;

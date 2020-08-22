@@ -1,4 +1,6 @@
-package com.example.demo.common.models;
+package com.example.demo.morningpanic.entities;
+
+import com.example.demo.common.models.Point;
 
 import javax.persistence.*;
 
@@ -6,19 +8,29 @@ import static com.example.demo.common.models.Common_Values.null_time;
 import static com.example.demo.common.util.Analyis.calc_percent_change;
 import static com.example.demo.common.util.Analyis.calc_time_elapsed;
 
-@Embeddable
-public class Premarket {
+@Entity
+@Table(name="premarket")
+public class PremarketEntity {
 
-    @Embedded
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "premarket_generator")
+    @SequenceGenerator(name="premarket_generator", sequenceName = "p_seq", allocationSize = 1)
+    public int premarketId;
+
+    public int dataId;
+
     @AttributeOverrides({
             @AttributeOverride( name = "price", column = @Column(name = "premarket_high_price")),
-            @AttributeOverride( name = "time", column = @Column(name = "premarket_high_time"))
+            @AttributeOverride( name = "time", column = @Column(name = "premarket_high_time")),
+            @AttributeOverride( name = "significance", column = @Column(name = "premarket_high_significance"))
+
     })
     public Point high;
-    @Embedded
+
     @AttributeOverrides({
             @AttributeOverride( name = "price", column = @Column(name = "premarket_low_after_high_price")),
-            @AttributeOverride( name = "time", column = @Column(name = "premarket_low_after_high_time"))
+            @AttributeOverride( name = "time", column = @Column(name = "premarket_low_after_high_time")),
+            @AttributeOverride( name = "significance", column = @Column(name = "premarket_low_after_high_significance"))
     })
     public Point low_after_high;
 
@@ -27,7 +39,7 @@ public class Premarket {
     @Column(columnDefinition = "varchar(5) default '00:00'", name = "premarket_pullback_time_length")
     public String pullback_time_length; // calculated
 
-    public Premarket(){
+    public PremarketEntity(){
         high = new Point();
         low_after_high = new Point();
         pullback_percent = 0.0;

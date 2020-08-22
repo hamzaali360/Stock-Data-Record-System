@@ -9,13 +9,15 @@ public class Spike {
     @Embedded
     @AttributeOverrides({
             @AttributeOverride( name = "price", column = @Column(name = "start_point_price")),
-            @AttributeOverride( name = "time", column = @Column(name = "start_point_time"))
+            @AttributeOverride( name = "time", column = @Column(name = "start_point_time")),
+            @AttributeOverride( name = "significance", column = @Column(name = "start_point_significance"))
     })
     public Point start;
     @Embedded
     @AttributeOverrides({
             @AttributeOverride( name = "price", column = @Column(name = "top_point_price")),
-            @AttributeOverride( name = "time", column = @Column(name = "top_point_time"))
+            @AttributeOverride( name = "time", column = @Column(name = "top_point_time")),
+            @AttributeOverride( name = "significance", column = @Column(name = "top_point_significance"))
     })
     public Point top;
 

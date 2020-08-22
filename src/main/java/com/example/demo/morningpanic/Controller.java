@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.example.demo.common.util.Validate.validate_MorningPanicEnvelope;
+import static com.example.demo.common.util.Validate.validateMorningPanicEnvelope;
 
 @RestController
 public class Controller {
@@ -26,21 +26,20 @@ public class Controller {
 
     @RequestMapping(method=RequestMethod.POST, value="/morning_panic")
     public ResponseEntity<String> addRecord(@RequestBody Envelope envelope){
-        //System.out.println(envelope.toString());
-        Response response = validate_MorningPanicEnvelope(envelope);
+        System.out.println(envelope.toString());
+        Response response = validateMorningPanicEnvelope(envelope);
 
         if(!response.valid) {
             System.out.println("Error in Morning Panic Envelope");
             return new ResponseEntity<>(response.response, HttpStatus.BAD_REQUEST);
         }
 
-        CompleteRecord record = yahooScraperService.scrape_symbol(envelope.data.symbol, envelope.date, envelope.history_length);
+        CompleteRecord record = yahooScraperService.scrape_symbol(envelope.data.symbol, envelope.data.date, envelope.data.history_length);
 
         if(record != null) {
             //System.out.println(record.toString_formatted());
             morningPanicService.addRecord(record, envelope);
             return new ResponseEntity<>("Success", HttpStatus.CREATED);
         }else{ return new ResponseEntity<>("Webscraper failure (NULL).", HttpStatus.FAILED_DEPENDENCY); }
-
     }
 }

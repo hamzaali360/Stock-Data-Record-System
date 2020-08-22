@@ -12,8 +12,9 @@ class ValidateTest {
     void validateJavaDate_Test() {
         assertEquals(false, validateJavaDate("sd"));
         assertEquals(false, validateJavaDate("1900/05/10"));
-
+        assertEquals(false, validateJavaDate("2001-1-5"));
         assertEquals(true, validateJavaDate("1900-10-05"));
+
     }
 
     @Test
