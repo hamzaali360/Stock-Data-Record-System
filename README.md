@@ -1,5 +1,3 @@
-# Stock-Data-Record-System
-
 # Summary
 This is a Spring Boot application that uses multiple REST controllers to store pattern records into databases. The controllers use a webscraping service built from the Jsoup library to scrape for data. This service scrapes a stock's Yahoo Finance page for the float, shares outstanding, historical data, etc. The desired information is extracted from the scraped data and stored into Java objects; The pattern information the user submits is also stored into Java objects. Using JPA these data objects act as entities of a database and are stored as new records in their respective tables. 
 
